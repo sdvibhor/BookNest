@@ -1,0 +1,48 @@
+{% extends 'layout.html' %} {% block title %}Top 50 Books | BookNest{% endblock
+%} {% block nav_home %}active{% endblock %} {% block content %}
+<section class="hero">
+  <div class="container">
+    <h1>Discover Your Next Favorite Book</h1>
+    <p>
+      Explore our collection of top-rated books and get personalized
+      recommendations
+    </p>
+    <a href="/recommend" class="btn">Get Recommendations</a>
+  </div>
+</section>
+
+<section class="top-books">
+  <div class="container">
+    <h2>Top 50 Books</h2>
+    <div class="book-grid">
+      {% for i in range(book_name|length) %}
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="{{ image_url[i] }}" alt="{{ book_name[i] }}" />
+        </div>
+        <div class="book-info">
+          <h3>{{ book_name[i] }}</h3>
+          <p class="author">by {{ author_name[i] }}</p>
+          <div class="rating">
+            <div class="stars">
+              {% set rating_value = rating[i]|float %} {% for j in range(5) %}
+              {% if j < rating_value|int %}
+              <span class="star filled">★</span>
+              {% elif j < rating_value %}
+              <span class="star half">★</span>
+              {% else %}
+              <span class="star">★</span>
+              {% endif %} {% endfor %}
+            </div>
+            <span class="rating-text"
+              >{{ "%.1f"|format(rating[i]|float) }} ({{ votes[i] }}
+              ratings)</span
+            >
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

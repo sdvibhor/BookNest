@@ -1,0 +1,124 @@
+{% extends 'layout.html' %} {% block title %} Book Recommendations | BookNest {%
+endblock %} {% block nav_recommend %} active {% endblock %} {% block content %}
+<section class="recommend-hero">
+  <div class="container">
+    <h1>Get Personalized Book Recommendations</h1>
+    <p>
+      Enter the name of a book you enjoyed, and we'll suggest similar books you
+      might like.
+    </p>
+  </div>
+</section>
+
+<section class="recommend-form">
+  <div class="container">
+    <div class="search-container">
+      <form action="/recommend_books" method="POST">
+        <div class="form-group">
+          <input
+            type="text"
+            name="book_name"
+            id="book_name"
+            placeholder="Enter a book title..."
+            required
+            autocomplete="off"
+          />
+          <ul id="suggestions" class="suggestions-box"></ul>
+          <button type="submit" class="btn">Find Books</button>
+        </div>
+      </form>
+
+      {% if error %}
+      <div class="alert">{{ message }}</div>
+      {% endif %}
+    </div>
+
+    {% if data %}
+    <div class="recommendations">
+      <h2>Books You Might Enjoy</h2>
+      <div class="book-grid">
+        {% for book in data %}
+        <div class="book-card">
+          <div class="book-cover">
+            <img src="{{ book[2] }}" alt="{{ book[0] }}" />
+          </div>
+          <div class="book-info">
+            <h3>{{ book[0] }}</h3>
+            <p class="author">by {{ book[1] }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $("#book_name").on("input", function () {
+      let query = $(this).val();
+      if (query.length > 1) {
+        $.ajax({
+          url: "/autocomplete",
+          type: "GET",
+          data: { query: query },
+          success: function (data) {
+            let suggestions = data.suggestions;
+            let suggestionList = $("#suggestions");
+            suggestionList.empty();
+            suggestions.forEach(function (suggestion) {
+              suggestionList.append(
+                "<li class='suggestion-item'>" + suggestion + "</li>"
+              );
+            });
+            suggestionList.show();
+          },
+        });
+      } else {
+        $("#suggestions").empty().hide();
+      }
+    });
+
+    // Select book from suggestions
+    $(document).on("click", ".suggestion-item", function () {
+      $("#book_name").val($(this).text());
+      $("#suggestions").empty().hide();
+    });
+
+    // Hide suggestions when clicking outside
+    $(document).click(function (event) {
+      if (!$(event.target).closest("#book_name, #suggestions").length) {
+        $("#suggestions").empty().hide();
+      }
+    });
+  });
+</script>
+
+<style>
+  .suggestions-box {
+    border: 1px solid #ccc;
+    background: white;
+    max-width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width: 300px;
+    z-index: 1000;
+    display: none;
+  }
+
+  .suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .suggestion-item:hover {
+    background: #f0f0f0;
+  }
+</style>
+
+{% endblock %}

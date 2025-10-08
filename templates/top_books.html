@@ -1,0 +1,50 @@
+{% extends 'layout.html' %} {% block title %}Top 50 Books{% endblock %} {% block
+content %}
+<div class="container py-5">
+  <div class="row mb-4">
+    <div class="col-12">
+      <h1 class="display-5 fw-bold text-center">Top 50 Books</h1>
+      <p class="lead text-center">
+        Explore our collection of the highest-rated books based on reader
+        reviews
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    {% for book in books %}
+    <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+      <div class="book-card">
+        <div class="book-cover">
+          <img
+            src="{{ book['Image-URL-M'] }}"
+            alt="{{ book['Book-Title'] }}"
+            class="img-fluid"
+          />
+        </div>
+        <div class="book-info">
+          <h5 class="book-title">{{ book['Book-Title'] }}</h5>
+          <p class="book-author">by {{ book['Book-Author'] }}</p>
+          <div class="book-rating">
+            <div class="stars">
+              {% set rating = book['avg_rating']|float %} {% for i in range(5)
+              %} {% if i < rating|int %}
+              <span class="star filled">★</span>
+              {% elif i < rating %}
+              <span class="star half-filled">★</span>
+              {% else %}
+              <span class="star">★</span>
+              {% endif %} {% endfor %}
+            </div>
+            <span class="rating-text"
+              >{{ "%.1f"|format(book['avg_rating']|float) }} ({{
+              book['num_ratings'] }} ratings)</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
