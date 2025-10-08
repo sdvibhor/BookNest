@@ -20,7 +20,7 @@ BookNest is a web-based book recommendation system that suggests books based on 
 ## 🔧 Installation & Setup
 - Clone the Repository:
 
-  ```https://github.com/Anurag1698/BookNest.git``` 
+  ```https://github.com/sdvibhor/BookNest.git``` 
 
   ```cd BookNest```
 
@@ -66,5 +66,5 @@ er input.
 
 ## 🔧 Installation & Setup
 - Clone the Repository:
-```https://github.com/Anurag1698/BookNest.git``` 
+```https://github.com/sdvibhor/BookNest.git``` 
 ```cd BookNest```
