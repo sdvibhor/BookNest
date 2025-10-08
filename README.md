@@ -36,7 +36,7 @@ BookNest is a web-based book recommendation system that suggests books based on 
 
   ```python app.py```
     
-     The app will be available at http://127.0.0.1:5000/
+
 
 ## 📸 Screenshots
 - Home Page
